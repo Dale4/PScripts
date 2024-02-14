@@ -1,6 +1,7 @@
 cd $webapiProjName
 dotnet add package Microsoft.NET.Build.Containers
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet restore
 dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerImageTag=$imagetag
 cd ..
 
@@ -9,6 +10,8 @@ dotnet new web --output $webProjName
 dotnet sln add $webProjName
 cd $webProjName
 dotnet add package Microsoft.NET.Build.Containers
+dotnet restore
 dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerImageTag=$imagetag
+cd ..
 
 Set-Location -Path $originalPath

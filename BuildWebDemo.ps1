@@ -5,13 +5,15 @@ param (
     [String] $webProjName = "web",
     [String] $webapiProjName = "webapi",
     [parameter (Mandatory=$true)]
-    [String] $imagetag = "1.1.3"
+    [String] $imagetag = "1.0.0"
 )
 
 $originalPath = $PWD.Path
 
-dotnet new sln --output $solutioName
-cd $solutioName
+Write-Host "Start build ..."
+
+dotnet new sln --output $solutionName
+cd $solutionName
 
 #Build Web API project
 dotnet new webapi --output $webapiProjName
