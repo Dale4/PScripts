@@ -10,7 +10,17 @@ param (
 
 $originalPath = $PWD.Path
 
-Write-Host "Start build ..."
+$fullPath = Join-Path -Path $originalPath -ChildPath $solutionName
+
+Write-Host "Start build ..." $fullPath
+
+if (Test-Path -Path $fullPath) {
+    $errorMessage = $fullPath + "Folder already exists.  Delete the folder and start over or change the solution name " + $solutionName
+    Write-Error -M $errorMessage
+    exit
+}
+
+try {
 
 Write-Host "Create solution " $solutionName
 dotnet new sln --output $solutionName
@@ -37,5 +47,10 @@ dotnet add package Microsoft.NET.Build.Containers
 dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerImageTag=$imagetag
 
 Write-Host "Build Completed"
+} catch {
+    Write-Error "An error occurred: $_"
+    exit 101  # Exit the script with a non-zero exit code
+}
+
 
 Set-Location -Path $originalPath
