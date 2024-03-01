@@ -22,6 +22,9 @@ if (Test-Path -Path $fullPath) {
 
 try {
 
+Write-Host "get latest .gitignore file from github"
+curl -L -o .gitignore https://raw.githubusercontent.com/github/gitignore/master/VisualStudio.gitignore    
+
 Write-Host "Create solution " $solutionName
 dotnet new sln --output $solutionName
 cd $solutionName
